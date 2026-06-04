@@ -1,1086 +1,891 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Jannah ❤️ - A Love Story</title>
+    <title>Happy Birthday My Jannah ❤️</title>
     
-    <!-- Bootstrap 5 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
     <!-- AOS Animation Library -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <style>
         :root {
             --primary-purple: #7B2CBF;
             --sky-blue: #4CC9F0;
             --romantic-red: #FF4D6D;
             --luxury-black: #0F0F0F;
             --soft-white: #F8F9FA;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
         }
 
-        html {
-            scroll-behavior: smooth;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--luxury-black);
-            color: #fff;
+            font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
+            background-color: var(--luxury-black);
+            color: var(--soft-white);
             overflow-x: hidden;
-            line-height: 1.6;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ========== TYPOGRAPHY ========== */
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 900;
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', 'Noto Sans Tamil', serif;
         }
 
-        .tamil-text {
-            font-family: 'Noto Sans Tamil', sans-serif;
-            font-weight: 500;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--luxury-black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--romantic-red);
         }
 
-        /* ========== HERO SECTION ========== */
-        .hero {
-            min-height: 100vh;
+        /* Utility Components */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glow-text-red {
+            text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+        }
+
+        .glow-text-purple {
+            text-shadow: 0 0 15px rgba(123, 44, 191, 0.6);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--romantic-red), var(--primary-purple), var(--sky-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Background Particle Canvas Wrap */
+        .section-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        canvas.interaction-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ==========================================
+           PREMIUM HERO & CROWN ANIMATION SECTION
+           ========================================== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            min-height: 750px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #7B2CBF 0%, #0F0F0F 50%, #4CC9F0 100%);
-            position: relative;
             overflow: hidden;
-            text-align: center;
-            padding: 40px 20px;
+            background: radial-gradient(circle at 50% 50%, #20082c 0%, var(--luxury-black) 85%);
+            padding: 0 20px;
         }
 
-        .hero::before {
-            content: '';
+        #particles-js {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,77,109,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: float 20s linear infinite;
-            top: 0;
-            left: 0;
+            width: 100%; height: 100%;
+            top: 0; left: 0; z-index: 1;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .hero-content {
+        /* Premium Floating Luxury Crown & Gift Animations */
+        .premium-gift-box {
             position: relative;
-            z-index: 2;
-            animation: slideUp 1s ease-out;
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: levitate 4s infinite ease-in-out;
+            z-index: 3;
+            display: inline-block;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 77, 109, 0.5); }
-            50% { text-shadow: 0 0 30px rgba(255, 77, 109, 0.8); }
-        }
-
-        .hero .tamil-text {
-            font-size: 1.3rem;
-            margin: 30px 0;
-            color: #4CC9F0;
-            font-style: italic;
-        }
-
-        .typing-effect {
-            font-size: 1.5rem;
-            color: #FF4D6D;
-            font-weight: 600;
-            margin: 30px 0;
-            min-height: 35px;
-            font-family: 'Noto Sans Tamil', sans-serif;
+        .premium-gift-box::after {
+            content: '👑';
+            position: absolute;
+            font-size: 2.2rem;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: crownShimmer 2s infinite alternate ease-in-out;
         }
 
         .hero-btn {
-            background: linear-gradient(135deg, #FF4D6D, #7B2CBF);
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 50px;
+            background: linear-gradient(45deg, var(--romantic-red), var(--primary-purple));
             color: white;
-            cursor: pointer;
-            margin-top: 30px;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.3);
-            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .hero-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(255, 77, 109, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6);
             color: white;
         }
 
-        /* ========== FLOATING HEARTS ========== */
-        .heart-float {
-            position: fixed;
-            pointer-events: none;
-            font-size: 2rem;
-            z-index: 1;
-            animation: floatUp 6s ease-in forwards;
+        /* Love Letter Section */
+        #love-letter {
+            padding: 140px 0;
+            background: linear-gradient(to bottom, var(--luxury-black), #140d1a);
         }
-
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) translateX(0) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) translateX(100px) rotate(360deg);
-            }
-        }
-
-        /* ========== LOVE LETTER SECTION ========== */
-        .love-letter {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(123, 44, 191, 0.1), rgba(79, 39, 245, 0.1));
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 50px 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(123, 44, 191, 0.3);
-        }
-
-        .love-letter h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: #FF4D6D;
-            text-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
-        }
-
-        .love-letter-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #E0E0E0;
-            font-style: italic;
-        }
-
-        /* ========== POETRY SECTION ========== */
-        .poetry {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1), rgba(123, 44, 191, 0.1));
-        }
-
-        .poetry h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            color: #4CC9F0;
-        }
-
-        .poetry-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(76, 201, 240, 0.3);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.4s ease;
-            margin-bottom: 30px;
-            min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .poetry-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #FF4D6D;
-            box-shadow: 0 10px 40px rgba(76, 201, 240, 0.3);
-            transform: translateY(-8px);
-        }
-
-        .poetry-card p {
+        .letter-content p {
             font-size: 1.2rem;
-            line-height: 2;
-            color: #E0E0E0;
-            font-family: 'Noto Sans Tamil', sans-serif;
-        }
-
-        /* ========== ISLAMIC QUOTES ========== */
-        .islamic-quotes {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(255, 77, 109, 0.05), rgba(123, 44, 191, 0.05));
-        }
-
-        .islamic-quotes h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            color: #FF4D6D;
-        }
-
-        .quote-card {
-            background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(76, 201, 240, 0.2));
-            border: 2px solid rgba(255, 77, 109, 0.5);
-            border-radius: 20px;
-            padding: 35px 30px;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quote-card::before {
-            content: '"';
-            position: absolute;
-            font-size: 5rem;
-            color: rgba(255, 77, 109, 0.2);
-            top: -20px;
-            left: 10px;
-        }
-
-        .quote-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 30px rgba(255, 77, 109, 0.3);
-        }
-
-        .quote-card p {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #E0E0E0;
-            font-family: 'Noto Sans Tamil', sans-serif;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ========== I MISS YOU SECTION ========== */
-        .miss-you {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #0F0F0F, #1a1a2e);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .miss-you h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: #FF4D6D;
-        }
-
-        .miss-you-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 1.2rem;
-            line-height: 2;
-            color: #E0E0E0;
-            font-family: 'Noto Sans Tamil', sans-serif;
-        }
-
-        /* ========== 100 REASONS SECTION ========== */
-        .reasons {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1), rgba(123, 44, 191, 0.1));
-        }
-
-        .reasons h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            color: #4CC9F0;
-        }
-
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .reason-card {
-            background: rgba(255, 77, 109, 0.1);
-            border: 2px solid rgba(255, 77, 109, 0.5);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-family: 'Noto Sans Tamil', sans-serif;
-        }
-
-        .reason-card:hover {
-            background: rgba(255, 77, 109, 0.3);
-            transform: scale(1.05) rotateY(5deg);
-            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.4);
-        }
-
-        .reason-card p {
-            font-size: 1rem;
-            color: #E0E0E0;
-        }
-
-        /* ========== BIRTHDAY PRAYER ========== */
-        .birthday-prayer {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(123, 44, 191, 0.1), rgba(79, 39, 245, 0.1));
-        }
-
-        .prayer-container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .birthday-prayer h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: #7B2CBF;
-        }
-
-        .prayer-text {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(123, 44, 191, 0.5);
-            border-radius: 20px;
-            padding: 40px;
-            font-size: 1.15rem;
-            line-height: 2;
-            color: #E0E0E0;
-            font-family: 'Noto Sans Tamil', sans-serif;
-            text-align: center;
-        }
-
-        /* ========== BIRTHDAY WISH SECTION ========== */
-        .birthday-wish {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #FF4D6D 0%, #7B2CBF 50%, #4CC9F0 100%);
-            position: relative;
-            overflow: hidden;
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .birthday-wish::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            animation: wave 10s linear infinite;
-            top: 0;
-            left: 0;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(1200px); }
-        }
-
-        .birthday-wish-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        .birthday-wish h2 {
-            font-size: 3rem;
-            margin-bottom: 40px;
-            color: white;
-            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .birthday-wish-text {
-            font-size: 1.3rem;
             line-height: 2.2;
-            color: white;
-            font-family: 'Noto Sans Tamil', sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
-        /* ========== FINAL SECTION ========== */
-        .final-section {
-            min-height: 100vh;
+        /* Poetry Section */
+        #poetry {
+            padding: 140px 0;
+            background: linear-gradient(to bottom, #140d1a, #0b111e);
+        }
+        .poetry-card {
+            height: 100%;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .poetry-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--romantic-red);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Islamic Quotes Section */
+        #islamic-quotes {
+            padding: 140px 0;
+            background: linear-gradient(to bottom, #0b111e, #120a14);
+        }
+        .islamic-card {
+            border-top: 3px solid var(--sky-blue);
+            transition: all 0.3s ease;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1a1a2e 50%, #0F0F0F 100%);
-            text-align: center;
-            padding: 40px 20px;
+        }
+        .islamic-card:hover {
+            box-shadow: 0 10px 30px rgba(84, 201, 240, 0.15);
+            transform: scale(1.03);
+        }
+        .celestial-icon {
+            color: var(--sky-blue);
+            font-size: 2.2rem;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        /* Miss You Section */
+        #miss-you {
+            padding: 160px 0;
+            background: radial-gradient(circle at center, #250914 0%, var(--luxury-black) 70%);
+            position: relative;
+        }
+        .heart-broken {
+            font-size: 4rem;
+            color: var(--romantic-red);
+            animation: heartbeat 2s infinite;
+        }
+
+        /* Birthday Prayer Section */
+        #prayer {
+            padding: 140px 0;
+            background: linear-gradient(to bottom, var(--luxury-black), #0a1118);
+        }
+        .prayer-card {
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            box-shadow: inset 0 0 20px rgba(76, 201, 240, 0.05);
+        }
+        .prayer-card p {
+            line-height: 2.2;
+        }
+
+        /* Birthday Wish Section */
+        #wish {
+            padding: 160px 0;
+            background: radial-gradient(circle at top center, #2d0f2b 0%, var(--luxury-black) 85%);
             position: relative;
             overflow: hidden;
         }
-
-        .final-content {
-            animation: slideUp 1.2s ease-out;
+        .cake-container {
+            font-size: 5.5rem;
+            margin-bottom: 2rem;
+            animation: bounce 3s infinite;
         }
-
-        .final-section p {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            line-height: 1.8;
-            margin: 30px 0;
-            color: #E0E0E0;
-            font-family: 'Noto Sans Tamil', sans-serif;
-        }
-
-        .signature {
-            font-size: 2rem;
-            margin-top: 60px;
-            color: #FF4D6D;
-            font-style: italic;
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background: var(--luxury-black);
-            padding: 30px 20px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 77, 109, 0.3);
-        }
-
-        footer p {
-            font-size: 1rem;
-            color: #A0A0A0;
-        }
-
-        /* ========== CONFETTI ========== */
-        .confetti {
-            position: fixed;
-            pointer-events: none;
-            width: 10px;
-            height: 10px;
-            z-index: 999;
-        }
-
-        /* ========== SPARKLE ========== */
-        .sparkle {
-            position: fixed;
-            pointer-events: none;
-            font-size: 1.5rem;
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
             z-index: 1;
-            animation: sparkleAnim 1s ease-out forwards;
+            opacity: 0.5;
+            animation: floatUp 15s infinite linear;
+            bottom: -100px;
         }
 
-        @keyframes sparkleAnim {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0);
-            }
+        /* Final Screen */
+        #final-screen {
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--luxury-black);
+            position: relative;
+            text-align: center;
+            padding: 0 20px;
         }
 
-        /* ========== SCROLL ANIMATIONS ========== */
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
+        /* Footer */
+        footer {
+            background: #080808;
+            padding: 50px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            color: rgba(248, 249, 254, 0.6);
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+        /* Keyframes Animations */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.08); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes levitate {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        @keyframes crownShimmer {
+            0% { transform: translateX(-50%) translateY(0) scale(1) rotate(-5deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.4)); }
+            100% { transform: translateX(-50%) translateY(-5px) scale(1.1) rotate(5deg); filter: drop-shadow(0 0 15px rgba(255,215,0,0.9)); }
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; bottom: -100px; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-1200px) rotate(360deg); opacity: 0; }
         }
 
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
+        /* ==========================================================================
+           UNIVERSAL RESPONSIVE BREAKPOINTS 
+           ========================================================================== */
 
-            .hero .tamil-text {
-                font-size: 1rem;
-            }
+        /* --- DESKTOP ULTRA & LARGE MONITORS (1400px and up) --- */
+        @media (min-width: 1400px) {
+            .container { max-width: 1320px; }
+            #hero h1 { font-size: 5.8rem; }
+            .letter-content p { font-size: 1.35rem; }
+        }
 
-            .typing-effect {
-                font-size: 1.1rem;
-            }
+        /* --- STANDARD LAPTOPS & DESKTOPS (1200px to 1399px) --- */
+        @media (max-width: 1399px) and (min-width: 1200px) {
+            .container { max-width: 1140px; }
+            #hero h1 { font-size: 5rem; }
+            #love-letter, #poetry, #islamic-quotes, #prayer { padding: 120px 0; }
+        }
 
-            .glass-card {
-                padding: 30px 20px;
-            }
+        /* --- SMALL LAPTOPS & LANDSCAPE TABLETS (992px to 1199px) --- */
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .container { max-width: 960px; }
+            #hero h1 { font-size: 4.5rem; }
+            .glass-card { padding: 2.2rem; }
+            .letter-content p { font-size: 1.15rem; line-height: 2.1; }
+            #love-letter, #poetry, #islamic-quotes, #prayer { padding: 100px 0; }
+            #miss-you, #wish { padding: 130px 0; }
+        }
 
-            .love-letter h2 {
-                font-size: 1.8rem;
-            }
+        /* --- PORTRAIT TABLETS & LARGE PHONES (768px to 991px) --- */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .container { max-width: 720px; }
+            #hero h1 { font-size: 4rem; }
+            #hero h2 { font-size: 1.4rem !important; }
+            .premium-gift-box { font-size: 3.5rem; }
+            .glass-card { padding: 2rem; border-radius: 20px; }
+            .letter-content p { font-size: 1.1rem; line-height: 2; }
+            #love-letter, #poetry, #islamic-quotes, #prayer { padding: 90px 0; }
+            #miss-you, #wish { padding: 110px 0; }
+            .poetry-card, .islamic-card { padding: 2rem 1.5rem; }
+            .display-5 { font-size: 2.5rem !important; }
+        }
 
-            .poetry-card {
-                min-height: auto;
-                padding: 25px 15px;
-            }
+        /* --- MOBILE DEVICES / SMARTPHONES (767px and below) --- */
+        @media (max-width: 767px) {
+            body { font-size: 14px; }
+            .container { padding-left: 20px; padding-right: 20px; }
+            
+            /* Hero adjustment */
+            #hero { min-height: 700px; padding-top: 40px; }
+            #hero h1 { font-size: 3.2rem !important; margin-bottom: 1rem !important; }
+            #hero h2 { font-size: 1.2rem !important; }
+            #hero p { font-size: 1.15rem !important; line-height: 1.7 !important; }
+            .premium-gift-box { font-size: 3rem; margin-bottom: 1.2rem; }
+            .premium-gift-box::after { font-size: 1.8rem; top: -25px; }
+            .hero-btn { padding: 12px 28px; font-size: 1rem; }
+            #typed-strings, .typed-cursor { font-size: 1.15rem !important; }
+            
+            /* Padding structural updates */
+            #love-letter, #poetry, #islamic-quotes, #prayer { padding: 70px 0; }
+            #miss-you, #wish { padding: 90px 0; }
+            
+            /* Glass Card tuning */
+            .glass-card { padding: 1.5rem; border-radius: 16px; }
+            .letter-content p { font-size: 1rem; line-height: 1.9; text-align: justify; }
+            .letter-content p.text-end { text-align: right !important; }
+            
+            /* Typography scaling */
+            .display-5 { font-size: 2rem !important; }
+            .display-4 { font-size: 2.2rem !important; }
+            #miss-you h2 { font-size: 1.8rem !important; }
+            .cake-container { font-size: 4rem; }
+            
+            /* Layout structural updates */
+            .poetry-card, .islamic-card { padding: 1.8rem 1.2rem; }
+            #final-screen p { font-size: 1.3rem !important; }
+            #final-screen h3 { font-size: 2.2rem !important; }
+        }
 
-            .birthday-wish h2 {
-                font-size: 2rem;
-            }
-
-            .reasons-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-
-            .final-section p {
-                font-size: 1.2rem;
-            }
+        /* --- EXTRA SMALL MOBILE DEVICES (360px and below) --- */
+        @media (max-width: 360px) {
+            #hero h1 { font-size: 2.6rem !important; }
+            .glass-card { padding: 1.2rem; }
+            .letter-content p { font-size: 0.95rem; line-height: 1.8; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero" id="hero">
-        <div class="hero-content">
-            <h1>🎂 Happy Birthday My Love</h1>
-            <p style="font-size: 2rem; color: #FF4D6D; margin: 20px 0;">Jannah ❤️</p>
+    <!-- ==========================================
+         SECTION 1: HERO SECTION (WITH TOP CELEBRATION & PRESET PREMIUM CONTENT)
+         ========================================== -->
+    <section id="hero">
+        <div id="particles-js"></div>
+        <div class="container text-center position-relative" style="z-index: 2;" data-aos="zoom-in" data-aos-duration="1500">
             
-            <p class="tamil-text" data-aos="fade-up" data-aos-delay="200">
-                "என் வாழ்வின் அழகான அத்தியாயம் நீ...
-                <br>என் இதயத்தின் அமைதியும் மகிழ்ச்சியும் நீ..."
+            <!-- Animated Crown & Gift Ribbon Element -->
+            <div class="premium-gift-box">💝</div>
+
+            <h2 class="text-uppercase tracking-wide fw-bold mb-2 text-white glow-text-purple font-serif" style="font-size: 1.5rem; letter-spacing: 2px;">
+                In the Name of Allah, To My Absolute Universe
+            </h2>
+            <h1 class="display-1 fw-bold mb-3 glow-text-red font-serif" style="color: var(--soft-white); letter-spacing: -1px;">
+                Happy Birthday, Jannah <span style="color: var(--romantic-red);">❤️</span>
+            </h1>
+            
+            <!-- Deep & Alluring Multi-language Birthday Master-piece Content -->
+            <p class="fs-4 mb-4 text-white-50 font-serif px-2 mx-auto" style="max-width: 850px; line-height: 1.7; font-weight: 300;">
+                "நிலவுக்கே நிலவூட்டும் பேரழகே! இந்த அகிலத்தை படைத்த இறைவனுக்கு என் கோடி நன்றிகள்... உன்னை என் வாழ்வின் வரமாய் தந்ததற்கு. மேகங்கள் சூழ்ந்தாலும் என் இதய வானில் பிரகாசிக்கும் என்றும் அழியாத முழுமதி நீ!"
+                <br>
+                <span class="fs-5 d-block mt-3 text-white fw-light tracking-wide italic" style="color: var(--sky-blue) !important;">
+                    Every single heartbeat of mine echoes your name, celebrating the breathtaking soul that completes my Deen and worldly existence.
+                </span>
             </p>
-            
-            <div class="typing-effect" id="typingEffect"></div>
-            
-            <button class="hero-btn" onclick="scrollToSection('#love-letter')">
-                ❤️ Open My Heart
-            </button>
-        </div>
-    </section>
 
-    <!-- ========== LOVE LETTER SECTION ========== -->
-    <section class="love-letter" id="love-letter">
-        <div class="container">
-            <div class="glass-card" data-aos="fade-up">
-                <h2>💌 உனக்கான என் இதயக் கடிதம்</h2>
-                <p class="love-letter-text tamil-text">
-                    அன்பே ஜன்னா,
-                    <br><br>
-                    இன்று உன் பிறந்தநாள்.
-                    <br><br>
-                    ஆனால் எனக்கு இது ஒரு சாதாரண நாள் அல்ல.
-                    <br><br>
-                    ஏனெனில் இந்த உலகத்தில் நான் அதிகமாக நேசிக்கும் மனிதரின் பிறந்த நாள் இன்று.
-                    <br><br>
-                    அல்லாஹ் எனக்கு அளித்த அழகான பரிசு நீ.
-                    <br><br>
-                    உன் சிரிப்பில் நான் அமைதியை கண்டேன்.
-                    <br><br>
-                    உன் அன்பில் நான் ஒரு புதிய வாழ்க்கையை கண்டேன்.
-                    <br><br>
-                    நீ இல்லாத ஒவ்வொரு நாளும் என் மனதில் ஒரு வெற்றிடம் உருவாகிறது.
-                    <br><br>
-                    நான் உன்னை மிகவும் மிஸ் செய்கிறேன்.
-                    <br><br>
-                    எத்தனை தூரம் இருந்தாலும்...
-                    <br>
-                    எத்தனை நாட்கள் கடந்தாலும்...
-                    <br><br>
-                    என் இதயம் எப்போதும் உன்னையே தேடும்.
-                    <br><br>
-                    Happy Birthday My Queen ❤️
-                </p>
+            <!-- Sophisticated Custom Smooth Continuous Typing Stream -->
+            <div class="fs-4 mb-5 fw-semibold" style="height: 45px; color: var(--romantic-red)">
+                <span id="typed-strings"></span>
             </div>
+
+            <a href="#love-letter" class="hero-btn">
+                <i class="fa-solid fa-heart me-2"></i> Open My Heart
+            </a>
         </div>
     </section>
 
-    <!-- ========== POETRY SECTION ========== -->
-    <section class="poetry" id="poetry">
-        <div class="container">
-            <h2 data-aos="fade-up">🌹 Tamil Love Poetry</h2>
-            
-            <div class="row">
-                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="poetry-card">
-                        <p class="tamil-text">
-                            "நிலவை பார்க்கும் ஒவ்வொரு இரவிலும்
-                            <br>உன் முகம் தான் எனக்கு நினைவாகிறது.
-                            <br><br>
-                            காற்று என்னை தொடும் ஒவ்வொரு நேரமும்
-                            <br>அதில் உன் அன்பை நான் உணர்கிறேன்."
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="poetry-card">
-                        <p class="tamil-text">
-                            "உன் பெயரை என் இதயம்
-                            <br>ஆயிரம் முறை சொல்லிக்கொண்டே இருக்கிறது.
-                            <br><br>
-                            ஏனெனில் அது என் வாழ்க்கையின்
-                            <br>அழகான வார்த்தை."
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="poetry-card">
-                        <p class="tamil-text">
-                            "காதல் என்றால் என்ன என்று கேட்டால்
-                            <br>உன் பெயரை தான் சொல்வேன்.
-                            <br><br>
-                            ஏனெனில் நான் காதலை
-                            <br>உன்னுள் தான் கண்டேன்."
-                        </p>
+
+    <!-- ==========================================
+         SECTION 2: LOVE LETTER
+         ========================================== -->
+    <div class="section-wrapper">
+        <canvas class="interaction-canvas" id="canvas-letter"></canvas>
+        <section id="love-letter">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-lg-10 col-md-11" data-aos="fade-up" data-aos-duration="1200">
+                        <div class="glass-card text-center p-md-5">
+                            <div class="mb-4">
+                                <i class="fa-solid fa-envelope-open-text fs-1" style="color: var(--romantic-red);"></i>
+                            </div>
+                            <h2 class="mb-5 font-serif glow-text-red">💌 உனக்கான என் இதயக் கடிதம்</h2>
+                            
+                            <div class="letter-content text-start text-white-50">
+                                <p class="mb-3 fw-semibold text-white">அன்பே ஜன்னா,</p>
+                                <p class="mb-3">இன்று உன் பிறந்தநாள். ஆனால் எனக்கு இது ஒரு சாதாரண நாள் அல்ல. ஏனெனில் இந்த உலகத்தில் நான் அதிகமாக நேசிக்கும் மனிதரின் பிறந்த நாள் இன்று.</p>
+                                <p class="mb-3 text-white glow-text-purple">அல்லாஹ் எனக்கு அளித்த அழகான பரிசு நீ.</p>
+                                <p class="mb-3">உன் சிரிப்பில் நான் அமைதியை கண்டேன். உன் அன்பில் நான் ஒரு புதிய வாழ்க்கையை கண்டேன். நீ இல்லாத ஒவ்வொரு நாளும் என் மனதில் ஒரு வெற்றிடம் உருவாகிறது. நான் உன்னை மிகவும் மிஸ் செய்கிறேன்.</p>
+                                <p class="mb-4">எத்தனை தூரம் இருந்தாலும்... எத்தனை நாட்கள் கடந்தாலும்... என் இதயம் எப்போதும் உன்னையே தேடும்.</p>
+                                <p class="text-end font-serif fw-bold fs-4 text-white mt-4">Happy Birthday My Queen <span style="color: var(--romantic-red);">❤️</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- ========== ISLAMIC QUOTES SECTION ========== -->
-    <section class="islamic-quotes" id="quotes">
+
+    <!-- ==========================================
+         SECTION 3: TAMIL LOVE POETRY
+         ========================================== -->
+    <div class="section-wrapper">
+        <canvas class="interaction-canvas" id="canvas-poetry"></canvas>
+        <section id="poetry">
+            <div class="container">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-5 font-serif gradient-text fw-bold">கவிதைச் சாரல்</h2>
+                    <div class="w-25 mx-auto opacity-25 mt-2" style="border-bottom: 1px solid var(--soft-white);"></div>
+                </div>
+                
+                <div class="row g-4 justify-content-center">
+                    <!-- Poem 1 -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="glass-card poetry-card text-center">
+                            <div class="mb-4 text-white-50 opacity-50"><i class="fa-solid fa-moon fs-3"></i></div>
+                            <p class="fs-5 leading-relaxed text-white-50 italic">"நிலவை பார்க்கும் ஒவ்வொரு இரவிலும் உன் முகம் தான் எனக்கு நினைவாகிறது."</p>
+                            <p class="fs-5 leading-relaxed text-white-50 mt-2 italic">"காற்று என்னை தொடும் ஒவ்வொரு நேரமும் அதில் உன் அன்பை நான் உணர்கிறேன்."</p>
+                        </div>
+                    </div>
+                    <!-- Poem 2 -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="glass-card poetry-card text-center">
+                            <div class="mb-4 text-white-50 opacity-50"><i class="fa-solid fa-heart-pulse fs-3"></i></div>
+                            <p class="fs-5 leading-relaxed text-white-50 italic">"உன் பெயரை என் இதயம் ஆயிரம் முறை சொல்லிக்கொண்டே இருக்கிறது."</p>
+                            <p class="fs-5 leading-relaxed text-white-50 mt-2 italic">"ஏனெனில் அது என் வாழ்க்கையின் அழகான வார்த்தை."</p>
+                        </div>
+                    </div>
+                    <!-- Poem 3 -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                        <div class="glass-card poetry-card text-center">
+                            <div class="mb-4 text-white-50 opacity-50"><i class="fa-solid fa-wand-magic-sparkles fs-3"></i></div>
+                            <p class="fs-5 leading-relaxed text-white-50 italic">"காதல் என்றால் என்ன என்று கேட்டால் உன் பெயரை தான் சொல்வேன்."</p>
+                            <p class="fs-5 leading-relaxed text-white-50 mt-2 italic">"ஏனெனில் நான் காதலை உன்னுள் தான் கண்டேன்."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================
+         SECTION 4: ISLAMIC LOVE QUOTES
+         ========================================== -->
+    <section id="islamic-quotes">
         <div class="container">
-            <h2 data-aos="fade-up">🌙 Islamic Love Quotes</h2>
-            
-            <div class="max-width-800" style="max-width: 800px; margin: 0 auto;">
-                <div class="quote-card" data-aos="fade-up" data-aos-delay="100">
-                    <p class="tamil-text">🌟 அல்லாஹ் நமக்காக எழுதியிருப்பது எப்போதும் சிறந்ததே.</p>
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="d-flex justify-content-center gap-3 mb-2">
+                    <i class="fa-solid fa-moon celestial-icon"></i>
+                    <i class="fa-solid fa-star celestial-icon" style="font-size: 1rem; align-self: center;"></i>
                 </div>
-                
-                <div class="quote-card" data-aos="fade-up" data-aos-delay="200">
-                    <p class="tamil-text">⭐ துஆவில் நினைக்கப்படும் ஒருவர் மிகப் பெரும் பாக்கியசாலி.</p>
+                <h2 class="display-5 font-serif fw-bold glow-text-purple" style="color: var(--soft-white)">நிழலாய் தொடரும் துஆ</h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card islamic-card text-center">
+                        <p class="fs-5 text-white-50 mb-0">"அல்லாஹ் நமக்காக எழுதியிருப்பது எப்போதும் சிறந்ததே."</p>
+                    </div>
                 </div>
-                
-                <div class="quote-card" data-aos="fade-up" data-aos-delay="300">
-                    <p class="tamil-text">✨ உண்மையான அன்பு அல்லாஹ்வின் பாதையில் வளர்கிறது.</p>
+                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card islamic-card text-center">
+                        <p class="fs-5 text-white-50 mb-0">"துஆவில் நினைக்கப்படும் ஒருவர் மிகப் பெரும் பாக்கியசாலி."</p>
+                    </div>
                 </div>
-                
-                <div class="quote-card" data-aos="fade-up" data-aos-delay="400">
-                    <p class="tamil-text">🌙 அல்லாஹ்வின் நேரம் மிகச் சிறந்தது.</p>
+                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass-card islamic-card text-center">
+                        <p class="fs-5 text-white-50 mb-0">"உண்மையான அன்பு அல்லாஹ்வின் பாதையில் வளர்கிறது."</p>
+                    </div>
                 </div>
-                
-                <div class="quote-card" data-aos="fade-up" data-aos-delay="500">
-                    <p class="tamil-text">💫 நாம் சந்தித்தது ஒரு தற்செயல் அல்ல, அல்லாஹ்வின் திட்டம்.</p>
+                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="glass-card islamic-card text-center">
+                        <p class="fs-5 text-white-50 mb-0">"அல்லாஹ்வின் நேரம் மிகச் சிறந்தது."</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="glass-card islamic-card text-center">
+                        <p class="fs-5 text-white-50 mb-0">"நாம் சந்தித்தது ஒரு தற்செயல் அல்ல, அல்லாஹ்வின் திட்டம்."</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== I MISS YOU SECTION ========== -->
-    <section class="miss-you" id="miss-you">
+
+    <!-- ==========================================
+         SECTION 5: I MISS YOU
+         ========================================== -->
+    <section id="miss-you">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10" data-aos="zoom-in-up" data-aos-duration="1200">
+                    <div class="mb-4">
+                        <i class="fa-solid fa-heart-crack heart-broken"></i>
+                    </div>
+                    <h2 class="display-5 font-serif fw-bold mb-4 glow-text-red">💔 நான் உன்னை மிகவும் மிஸ் செய்கிறேன்</h2>
+                    
+                    <div class="glass-card p-4 p-md-5 text-white-50 fs-5 line-lg">
+                        <p class="mb-3">உன் குரலை கேட்காமல் இருக்கும் நாட்கள் எனக்கு மிகவும் நீண்டதாக தோன்றுகின்றன.</p>
+                        <p class="mb-3 text-white">உன்னிடம் பேச வேண்டும். உன்னுடன் சிரிக்க வேண்டும். உன்னுடன் வாழ வேண்டும்.</p>
+                        <p class="mb-0">நான் ஒவ்வொரு நாளும் உன் நினைவுகளோடு தான் வாழ்கிறேன்.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SECTION 6: BIRTHDAY PRAYER
+         ========================================== -->
+    <section id="prayer">
         <div class="container">
-            <h2 data-aos="fade-up">💔 நான் உன்னை மிகவும் மிஸ் செய்கிறேன்</h2>
-            
-            <div class="miss-you-content" data-aos="fade-up" data-aos-delay="200">
-                <p>
-                    "உன் குரலை கேட்காமல் இருக்கும் நாட்கள்
-                    <br>எனக்கு மிகவும் நீண்டதாக தோன்றுகின்றன.
-                    <br><br>
-                    உன்னிடம் பேச வேண்டும்.
-                    <br>
-                    உன்னுடன் சிரிக்க வேண்டும்.
-                    <br>
-                    உன்னுடன் வாழ வேண்டும்.
-                    <br><br>
-                    நான் ஒவ்வொரு நாளும்
-                    <br>உன் நினைவுகளோடு தான் வாழ்கிறேன்."
-                </p>
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10 text-center" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="glass-card prayer-card p-4 p-sm-5">
+                        <div class="fs-1 text-white mb-3"><i class="fa-solid fa-hands-praying" style="color: var(--sky-blue)"></i></div>
+                        <h2 class="font-serif fw-bold mb-4" style="color: var(--sky-blue)">🤲 உனக்கான என் துஆ</h2>
+                        <div class="text-white-50 fs-5">
+                            <p class="mb-3 text-white fw-bold">யா அல்லாஹ்,</p>
+                            <p class="mb-3">ஜன்னாவின் வாழ்க்கையை மகிழ்ச்சியால் நிரப்புவாயாக.</p>
+                            <p class="mb-3">அவளுக்கு நல்ல ஆரோக்கியத்தையும், நீண்ட ஆயுளையும், அமைதியான மனதையும் வழங்குவாயாக.</p>
+                            <p class="mb-4">அவளுடைய எல்லா நல்ல கனவுகளையும் நிறைவேற்றுவாயாக.</p>
+                            <h4 class="glow-text-purple text-white font-serif mt-2 fs-3">ஆமீன்.</h4>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== 100 REASONS SECTION ========== -->
-    <section class="reasons" id="reasons">
+
+    <!-- ==========================================
+         SECTION 7: BIRTHDAY WISH & CELEBRATION
+         ========================================== -->
+    <section id="wish">
+        <!-- Floating Balloons Background Elements -->
+        <div class="balloon" style="background-color: var(--romantic-red); left: 8%; animation-delay: 0s; animation-duration: 14s;"></div>
+        <div class="balloon" style="background-color: var(--primary-purple); left: 28%; animation-delay: 3s; animation-duration: 17s;"></div>
+        <div class="balloon" style="background-color: var(--sky-blue); left: 52%; animation-delay: 1s; animation-duration: 13s;"></div>
+        <div class="balloon" style="background-color: var(--romantic-red); left: 78%; animation-delay: 6s; animation-duration: 15s;"></div>
+
+        <div class="container text-center position-relative" style="z-index: 2;">
+            <div class="cake-container" data-aos="zoom-in">🎂</div>
+            <h2 class="display-4 font-serif fw-bold mb-4 gradient-text" data-aos="fade-down">Happy Birthday My Jannah ❤️</h2>
+            
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card bg-opacity-10 p-4 p-md-5 border-0">
+                        <p class="fs-4 text-white mb-4 font-serif">"உன் வாழ்க்கையின் ஒவ்வொரு நாளும் ஒரு புன்னகையுடன் தொடங்கட்டும்."</p>
+                        <p class="fs-5 text-white-50">அல்லாஹ்வின் அருளும், அன்பும், பாதுகாப்பும் எப்போதும் உன்னோடு இருக்கட்டும்.</p>
+                        <p class="fs-4 glow-text-red text-white font-serif mt-4 fw-bold">பிறந்தநாள் வாழ்த்துக்கள் என் அன்பே ❤️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         FINAL SECTION & FOOTER
+         ========================================== -->
+    <section id="final-screen">
+        <div class="container" data-aos="zoom-out" data-aos-duration="1500">
+            <p class="fs-3 text-white-50 mb-3 font-serif">"நீ என் இதயத்தின் அழகான துஆ..."</p>
+            <p class="fs-3 text-white-50 mb-3 font-serif">"நீ என் வாழ்வின் அழகான வரம்..."</p>
+            <p class="fs-2 text-white mb-4 font-serif glow-text-red">"நீ என் உலகம்..."</p>
+            <h3 class="display-5 font-serif fw-bold gradient-text mb-4">Forever Yours ❤️</h3>
+            <p class="fs-5 text-white-50 mt-5 italic">— Your Loving Soul</p>
+        </div>
+    </section>
+
+    <footer class="text-center">
         <div class="container">
-            <h2 data-aos="fade-up">❤️ 100 Reasons Why I Love You</h2>
-            
-            <div class="reasons-grid" id="reasonsGrid" data-aos="fade-up" data-aos-delay="200">
-                <!-- Reasons will be populated by JavaScript -->
-            </div>
+            <p class="mb-2">Made With <i class="fa-solid fa-heart text-danger mx-1"></i> For Jannah</p>
+            <p class="small text-white-50 italic">"May Allah bless you with happiness, peace, love and barakah."</p>
         </div>
-    </section>
-
-    <!-- ========== BIRTHDAY PRAYER SECTION ========== -->
-    <section class="birthday-prayer" id="prayer">
-        <div class="prayer-container">
-            <h2 data-aos="fade-up">🤲 உனக்கான என் துஆ</h2>
-            
-            <div class="prayer-text" data-aos="fade-up" data-aos-delay="200">
-                <p>
-                    "யா அல்லாஹ்,
-                    <br><br>
-                    ஜன்னாவின் வாழ்க்கையை
-                    <br>
-                    மகிழ்ச்சியால் நிரப்புவாயாக.
-                    <br><br>
-                    அவளுக்கு நல்ல ஆரோக்கியத்தையும்,
-                    <br>
-                    நீண்ட ஆயுளையும்,
-                    <br>
-                    அமைதியான மனதையும் வழங்குவாயாக.
-                    <br><br>
-                    அவளுடைய எல்லா நல்ல கனவுகளையும் நிறைவேற்றுவாயாக.
-                    <br><br>
-                    ஆமீன் ❤️"
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== BIRTHDAY WISH SECTION ========== -->
-    <section class="birthday-wish" id="wish">
-        <div class="birthday-wish-content">
-            <h2 data-aos="fade-up">🎂 Happy Birthday My Jannah ❤️</h2>
-            
-            <p class="birthday-wish-text" data-aos="fade-up" data-aos-delay="200">
-                "உன் வாழ்க்கையின் ஒவ்வொரு நாளும்
-                <br>ஒரு புன்னகையுடன் தொடங்கட்டும்.
-                <br><br>
-                அல்லாஹ்வின் அருளும்,
-                <br>
-                அன்பும்,
-                <br>
-                பாதுகாப்பும்
-                <br>
-                எப்போதும் உன்னோடு இருக்கட்டும்.
-                <br><br>
-                பிறந்தநாள் வாழ்த்துக்கள் என் அன்பே ❤️"
-            </p>
-            
-            <button class="hero-btn" style="margin-top: 40px;" onclick="celebrateBirthday()">
-                🎉 Celebrate & Create Magic
-            </button>
-        </div>
-    </section>
-
-    <!-- ========== FINAL SECTION ========== -->
-    <section class="final-section" id="final">
-        <div class="final-content">
-            <p data-aos="fade-up">"நீ என் இதயத்தின் அழகான துஆ..."</p>
-            <p data-aos="fade-up" data-aos-delay="200">"நீ என் வாழ்வின் அழகான வரம்..."</p>
-            <p data-aos="fade-up" data-aos-delay="400">"நீ என் உலகம்..."</p>
-            <p data-aos="fade-up" data-aos-delay="600" style="font-size: 2.5rem; color: #FF4D6D;">"Forever Yours ❤️"</p>
-            <p class="signature" data-aos="fade-up" data-aos-delay="800">— Your Loving Soul</p>
-        </div>
-    </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer>
-        <p>Made With ❤️ For Jannah</p>
-        <p style="margin-top: 10px;">"May Allah bless you with happiness, peace, love and barakah." 🤲</p>
     </footer>
 
-    <!-- ========== SCRIPTS ========== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+
+    <!-- ==========================================
+         JAVASCRIPT LIBS & SCRIPTS
+         ========================================== -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
-        // ========== Initialize AOS ==========
+        // Initialize Animations on Scroll
         AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: false,
-            mirror: true
+            duration: 1000,
+            once: true,
+            mirror: false
         });
 
-        // ========== TYPING EFFECT ==========
-        const typingTexts = [
-            "நான் உன்னை நேசிக்கிறேன்...",
-            "நான் உன்னை மிஸ் செய்கிறேன்...",
-            "நீ என் துஆவின் அழகான பதில்...",
-            "முத்தம் ❤️"
-        ];
-
-        let textIndex = 0;
-        let charIndex = 0;
-        const typingElement = document.getElementById('typingEffect');
-
-        function typeText() {
-            const currentText = typingTexts[textIndex];
-            
-            if (charIndex < currentText.length) {
-                typingElement.textContent += currentText.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeText, 100);
-            } else {
-                setTimeout(() => {
-                    charIndex = 0;
-                    typingElement.textContent = '';
-                    textIndex = (textIndex + 1) % typingTexts.length;
-                    typeText();
-                }, 2000);
-            }
-        }
-
-        typeText();
-
-        // ========== FLOATING HEARTS ==========
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-float');
-            heart.textContent = '❤️';
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.top = window.innerHeight + 'px';
-            document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 6000);
-        }
-
-        // Create hearts every 1.5 seconds
-        setInterval(createFloatingHeart, 1500);
-
-        // ========== SPARKLE EFFECT ==========
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.textContent = '✨';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            document.body.appendChild(sparkle);
-
-            setTimeout(() => sparkle.remove(), 1000);
-        }
-
-        // Create sparkles on mouse move
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.8) {
-                createSparkle(e.clientX, e.clientY);
-            }
+        // Custom Typed.js Configuration running beautiful custom texts
+        var typed = new Typed('#typed-strings', {
+            strings: [
+                "நான் உன்னை நேசிக்கிறேன்...", 
+                "நான் உன்னை மிஸ் செய்கிறேன்...", 
+                "நீ என் துஆவின் அழகான பதில்...",
+                "பிறந்தநாள் வாழ்த்துக்கள் என் அரசி...",
+                "May Allah grant you eternal Barakah and happiness..."
+            ],
+            typeSpeed: 60,
+            backSpeed: 40,
+            backDelay: 2000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '❤️'
         });
 
-        // ========== SCROLL FUNCTION ==========
-        function scrollToSection(selector) {
-            const element = document.querySelector(selector);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // ========== GENERATE 100 REASONS ==========
-        const reasons = [
-            "உன் சிரிப்பு",
-            "உன் கண்கள்",
-            "உன் மனசு",
-            "உன் கருணை",
-            "உன் அன்பு",
-            "உன் பொறுமை",
-            "உன் நம்பிக்கை",
-            "உன் அழகு",
-            "உன் குரல்",
-            "நீயே",
-            "உன் கனவுகள்",
-            "உன் நகையாய் இருக்கும் இரவுகள்",
-            "உன் கோபம் (அ) மயக்கமும் கூட",
-            "உன் ஆத்மநம்பிக்கை",
-            "உன் வளிய மனம்",
-            "உன் பொறுமை",
-            "உன் பண்பாடு",
-            "உன் உதவும் குணம்",
-            "உன் நம்பக தன்மை",
-            "உன் சுஜாத்மன்",
-            "உன் கண்ணின் ஜ்ஞல்திறம்",
-            "உன் அறிவுத்திறம்",
-            "உன் நகையைப் பறிக்க",
-            "உன் கவலை கண்ணியாயிற்றே",
-            "உன் இதயத்தின் மென்மை",
-            "உன் விশ்வாசத்தின் மொழிதிறம்",
-            "உன் ஆதாயமா ஆலோசனை",
-            "உன் ஆதரவு",
-            "உன் கட்சு நிலை",
-            "உன் பாக்தியமா கண்ணோட்டம்",
-            "உன் வாழ்கையின் ஜம்மை",
-            "உன் தாய்ப்பால் சார்பாய் உணர்வு",
-            "உன் சூழ் சன்மாற்றத்தை",
-            "உன் பாசமான குரல்",
-            "உன் இரக்கப் பார்வை",
-            "உன் உச்சநீயமான நடை",
-            "உன் தூரதர்சனம்",
-            "உன் கூர்ம்மையிய பின்னணி",
-            "உன் இனிய பேச்சு",
-            "உன் கெளரவ மனப்பாட்டு",
-            "உன் பாவைய நிலை",
-            "உன் ஆவேதனை",
-            "உன் மொழி நுணுக்கம்",
-            "உன் கலை பரிச்ய",
-            "உன் கவிய உணர்வு",
-            "உன் கூர்ம்ம பெரிய கொள்கை",
-            "உன் நிலையாய் ஆஷ்டம்",
-            "உன் மொழிப் பக்கம்",
-            "உன் உணர்வு தத்துவம்",
-            "உன் ஆத்ம நெறிப்பாடு",
-            "உன் சுயமொழிமான் பரிமாணம்",
-            "உன் ஜ்ஞாய்க்கு வன்மை",
-            "உன் கூராய் பக்கம்",
-            "உன் விசாரணை திறம்",
-            "உன் தாய்ப் பாலாய் உணர்தல்",
-            "உன் சாந்த குணம்",
-            "உன் சிவாய் பாசம்",
-            "உன் மன்மத ஆவூர்பு",
-            "உன் பூரண ஆஷ்டம்",
-            "உன் கூர்ம்ம சுயம்",
-            "உன் உணர்வு சாரம்",
-            "உன் சிந்தனை பக்கம்",
-            "உன் ஆண்டை சாரம்",
-            "உன் ஈனப் பேச்சு",
-            "உன் கூர்ம்ம நெறி",
-            "உன் ஆலோசய புறம்",
-            "உன் சுயவன்மை",
-            "உன் பரிப்பொறி",
-            "உன் கொள்கை நெறி",
-            "உன் ஆவூர்பு மொழி",
-            "உன் சுயமொழி",
-            "உன் ஈனய் பாசம்",
-            "உன் கூர்ம்ம குணம்",
-            "உன் உணர்வு நெறி",
-            "உன் சாந்த பேச்சு",
-            "உன் நிலைய் ஆஷ்டம்",
-            "உன் பரிய ஆதாரம்",
-            "உன் சிந்தய் கல்விக்கு",
-            "உன் ஆண்டை நொறும்",
-            "உன் ஈய புறம்",
-            "உன் ஜ்ஞா பக்கம்",
-            "உன் சுயவ் பொறி",
-            "உன் பாவைய் ஆஷ்டம்",
-            "உன் கூர்ம்ம பாசம்",
-            "உன் ஆவூர் மொழி",
-            "உன் உணர்வ் கல்வி",
-            "உன் நிலையை ஆண்டை",
-            "உன் பரிப் ஆதாரம்",
-            "உன் சிந்தை பேச்சு",
-            "உன் ஈனய் நெறி",
-            "உன் ஜ்ஞா குணம்",
-            "உன் சாந்த் ஆஷ்டம்",
-            "உன் கூர்ம்ம் பொறி",
-            "உன் ஆவூர்ப் புறம்",
-            "உன் உணர்வ் பாசம்",
-            "உன் நிலையை சாரம்"
-        ];
-
-        // Take only first 100
-        const top100Reasons = reasons.slice(0, 100);
-
-        function generateReasons() {
-            const grid = document.getElementById('reasonsGrid');
-            
-            top100Reasons.forEach((reason, index) => {
-                const card = document.createElement('div');
-                card.className = 'reason-card';
-                card.setAttribute('data-aos', 'zoom-in');
-                card.setAttribute('data-aos-delay', (index % 10) * 50);
-                card.innerHTML = `<p>❤️ ${reason}</p>`;
-                grid.appendChild(card);
-            });
-        }
-
-        generateReasons();
-
-        // ========== CONFETTI ON CELEBRATION ==========
-        function celebrateBirthday() {
-            createConfetti();
-            createFireworks();
-            
-            // Alert message
+        // Trigger spontaneous initial burst of beautiful confetti at the top page load event!
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                alert('🎉 Happy Birthday Jannah! May all your dreams come true! ❤️');
-            }, 500);
-        }
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.4 },
+                    colors: ['#FF4D6D', '#7B2CBF', '#4CC9F0', '#FFFFFF']
+                });
+            }, 800);
+        });
 
-        function createConfetti() {
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                confetti.style.left = Math.random() * window.innerWidth + 'px';
-                confetti.style.top = '-10px';
-                confetti.style.backgroundColor = ['#FF4D6D', '#7B2CBF', '#4CC9F0', '#F8F9FA'][Math.floor(Math.random() * 4)];
-                confetti.style.animation = `fall ${2 + Math.random() * 2}s linear forwards`;
-                document.body.appendChild(confetti);
+        // Particles.js Configuration for Luxury Romantic Background
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 65, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#FF4D6D", "#7B2CBF", "#4CC9F0", "#FFFFFF"] },
+                "shape": {
+                    "type": "heart",
+                    "stroke": { "width": 0, "color": "#000000" }
+                },
+                "opacity": {
+                    "value": 0.45,
+                    "random": true,
+                    "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }
+                },
+                "size": {
+                    "value": 6,
+                    "random": true,
+                    "anim": { "enable": true, "speed": 3, "size_min": 2, "sync": false }
+                },
+                "line_linked": { "enable": false },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "top",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "bubble" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "bubble": { "distance": 130, "size": 10, "duration": 2, "opacity": 0.7, "speed": 3 },
+                    "push": { "particles_nb": 3 }
+                }
+            },
+            "retina_detect": true
+        });
 
-                setTimeout(() => confetti.remove(), 4000);
+        // Interactive Canvas Sparkles/Hearts effect on sections
+        function setupCanvasInteractiveEffect(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particlesArray = [];
+
+            function resizeCanvas() {
+                canvas.width = canvas.parentElement.offsetWidth;
+                canvas.height = canvas.parentElement.offsetHeight;
             }
-        }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
-        function createFireworks() {
-            for (let i = 0; i < 20; i++) {
-                const x = Math.random() * window.innerWidth;
-                const y = Math.random() * window.innerHeight * 0.5 + 100;
-                
-                const firework = document.createElement('div');
-                firework.style.position = 'fixed';
-                firework.style.left = x + 'px';
-                firework.style.top = y + 'px';
-                firework.textContent = '✨';
-                firework.style.fontSize = '2rem';
-                firework.style.zIndex = '999';
-                firework.style.pointerEvents = 'none';
-                firework.style.animation = 'sparkleAnim 1.5s ease-out forwards';
-                document.body.appendChild(firework);
-
-                setTimeout(() => firework.remove(), 1500);
-            }
-        }
-
-        // Add confetti animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                    opacity: 0;
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * -1 - 0.5;
+                    this.color = `rgba(255, 77, 109, ${Math.random() * 0.5 + 0.2})`;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.size > 0.1) this.size -= 0.02;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
             }
-        `;
-        document.head.appendChild(style);
 
-        // ========== PARALLAX EFFECT ==========
+            canvas.parentElement.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                for (let i = 0; i < 2; i++) {
+                    particlesArray.push(new Particle(x, y));
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                    if (particlesArray[i].size <= 0.1) {
+                        particlesArray.splice(i, 1);
+                        i--;
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        setupCanvasInteractiveEffect('canvas-letter');
+        setupCanvasInteractiveEffect('canvas-poetry');
+
+        // Continuous Birthday Fireworks / Confetti Trigger on Birthday Wish Section
+        let wishSection = document.getElementById('wish');
+        let triggeredConfetti = false;
+
         window.addEventListener('scroll', () => {
-            const hero = document.querySelector('.hero');
-            const scrollPosition = window.pageYOffset;
-            hero.style.backgroundPosition = `0 ${scrollPosition * 0.5}px`;
+            if (!wishSection) return;
+            let position = wishSection.getBoundingClientRect();
+            
+            if(position.top < window.innerHeight && position.bottom >= 0 && !triggeredConfetti) {
+                triggeredConfetti = true;
+                runCelebrationConfetti();
+                setTimeout(() => { triggeredConfetti = false; }, 8000);
+            }
         });
 
-        // ========== PAGE LOAD ANIMATION ==========
-        window.addEventListener('load', () => {
-            console.log('🎂 Birthday Website Loaded Successfully! 🎂');
-            console.log('❤️ Made with Love for Jannah ❤️');
+        function runCelebrationConfetti() {
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 40 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Smooth Scroll for elements
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+            if( target.length ) {
+                event.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top
+                }, 1000);
+            }
         });
     </script>
-
 </body>
 </html>
